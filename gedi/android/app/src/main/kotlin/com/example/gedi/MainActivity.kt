@@ -1,4 +1,4 @@
-package com.example.gedi
+package com.dadaren.gedi
 
 import io.flutter.embedding.android.FlutterActivity
 
