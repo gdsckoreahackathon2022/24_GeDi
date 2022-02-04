@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gedi/models/dictionary.dart';
 import 'package:gedi/screens/image_view_screen.dart';
+import 'package:gedi/utils/database.dart';
 import 'package:gedi/widgets/image_round_container.dart';
 import 'package:google_ml_kit_for_korean/google_ml_kit_for_korean.dart';
 
@@ -29,9 +31,12 @@ class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
   late InputImage visionImage;
   TextDetectorV2 textDetector = GoogleMlKit.vision.textDetectorV2();
   late RecognisedText visionText;
+  late Stream<List<Dictionary>> streamData;
 
   @override
   void initState() {
+    final database = FirestoreDatabase();
+    streamData = database.dictionaryStream();
     super.initState();
     visionImage = InputImage.fromFile(widget.image);
   }
@@ -97,7 +102,10 @@ class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
                           return const RecognizedWordsContainer(
                               content: "발견한 단어가 없습니다.");
                         } else {
-                          return RecognizedWordsContainer(content: content);
+                          return RecognizedWordsContainer(
+                            content: content,
+                            streamData: streamData,
+                          );
                         }
                       }
                     },
@@ -116,9 +124,11 @@ class RecognizedWordsContainer extends StatelessWidget {
   const RecognizedWordsContainer({
     Key? key,
     required this.content,
+    this.streamData,
   }) : super(key: key);
 
   final String content;
+  final Stream<List<Dictionary>>? streamData;
 
   @override
   Widget build(BuildContext context) {
@@ -128,10 +138,31 @@ class RecognizedWordsContainer extends StatelessWidget {
           title: "사진 속에서 찾아낸 글자",
           content: content,
         ),
-        const Expanded(
-          child: CorrectWordsContainer(
-            title: "잘못된 단어 수정",
-          ),
+        Expanded(
+          child: StreamBuilder<List<Dictionary>>(
+              stream: streamData,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CorrectWordsContainer(
+                    title: "잘못된 단어 수정",
+                    wrongWords: [],
+                    correctWords: [],
+                  );
+                }
+                List<String> wrongWords = [];
+                List<String> correctWords = [];
+                snapshot.data!.asMap().forEach((index, word) {
+                  if (content.contains(word.wrongWord)) {
+                    wrongWords.add(word.wrongWord);
+                    correctWords.add(word.title);
+                  }
+                });
+                return CorrectWordsContainer(
+                  title: "잘못된 단어 수정",
+                  wrongWords: wrongWords,
+                  correctWords: correctWords,
+                );
+              }),
         )
       ],
     );
@@ -196,9 +227,13 @@ class CorrectWordsContainer extends StatelessWidget {
   const CorrectWordsContainer({
     Key? key,
     required this.title,
+    required this.wrongWords,
+    required this.correctWords,
   }) : super(key: key);
 
   final String title;
+  final List<String> wrongWords;
+  final List<String> correctWords;
 
   @override
   Widget build(BuildContext context) {
@@ -229,37 +264,36 @@ class CorrectWordsContainer extends StatelessWidget {
           ),
           Expanded(
               child: Center(
-            child: ListView(
+            child: ListView.builder(
               shrinkWrap: true,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const <Widget>[
-                      Expanded(
-                        flex: 4,
-                        child: Center(
-                          child: Text("맘스스테이션"),
-                        ),
+              itemCount: wrongWords.length,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 4,
+                      child: Center(
+                        child: Text(wrongWords[index]),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Image(
-                          height: 50,
-                          image: AssetImage('assets/icons/arrow.png'),
-                        ),
+                    ),
+                    const Expanded(
+                      flex: 2,
+                      child: Image(
+                        height: 50,
+                        image: AssetImage('assets/icons/arrow.png'),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Center(
-                          child: Text("어린이 승하차장"),
-                        ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Center(
+                        child: Text(correctWords[index]),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ))
         ],

@@ -56,30 +56,13 @@ class _GediAppState extends State<GediApp> {
         //     )
         //   ],
         // ),
-        body: Stack(
-          children: [
-            Row(
-              children: <Widget>[
-                const SizedBox(
-                  height: double.infinity,
-                  width: 55,
-                ),
-                Expanded(
-                  child: GediApp.pageList[pageIndex],
-                )
-              ],
+        body: Row(
+          children: <Widget>[
+            LeftWidget(
+              callback: callback,
             ),
-            Row(
-              children: <Widget>[
-                LeftWidget(
-                  callback: callback,
-                ),
-                Expanded(
-                  child: Container(
-                    child: GediApp.pageList[pageIndex],
-                  ),
-                )
-              ],
+            Expanded(
+              child: GediApp.pageList[pageIndex],
             ),
           ],
         ),
