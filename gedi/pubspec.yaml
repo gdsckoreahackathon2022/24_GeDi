@@ -40,6 +40,8 @@ dependencies:
   cloud_firestore: ^3.1.7
   photo_view: ^0.13.0
   google_ml_kit_for_korean: ^0.0.10
+  google_sign_in: ^5.2.3
+  firebase_auth: ^3.3.6
 
 dev_dependencies:
   flutter_test:

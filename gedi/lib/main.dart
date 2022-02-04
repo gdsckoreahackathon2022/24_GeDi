@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gedi/screens/dictionary_screen.dart';
+import 'package:gedi/screens/login_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -29,7 +30,7 @@ class GediApp extends StatelessWidget {
           backgroundColor: const Color(0xffa3a4cd),
           actions: [
             IconButton(
-              onPressed: () => DictionaryScreen.show(context),
+              onPressed: () => SignInDemo.show(context),
               icon: const Icon(Icons.double_arrow),
             )
           ],

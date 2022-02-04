@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "335506891082",
+    "project_id": "gedi-8494a",
+    "storage_bucket": "gedi-8494a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335506891082:android:275613bcaa53d4597661b3",
+        "android_client_info": {
+          "package_name": "com.dadaren.gedi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335506891082-infi4imp8t5plfds6og0g94tn4n6qp3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAATwfCnaf6D95wKcjyGaU-HOkcUo4IRxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335506891082-infi4imp8t5plfds6og0g94tn4n6qp3q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "335506891082-vohpsn8k9m0sckui4a5k5csnuvhp67s2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dadaren.gedi"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
