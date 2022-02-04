@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gedi/screens/dictionary_screen.dart';
+import 'package:gedi/screens/mypage.dart';
 
-void main() {
-  runApp(const MaterialApp(home: GediApp()));
-}
+void main() => runApp(GediApp());
+
 
 class GediApp extends StatelessWidget {
   const GediApp({Key? key}) : super(key: key);
@@ -16,18 +16,12 @@ class GediApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xffa3a4cd),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('GEDI'),
-          backgroundColor: const Color(0xffa3a4cd),
-          actions: [
-            IconButton(
-              onPressed: () => DictionaryScreen.show(context),
-              icon: const Icon(Icons.double_arrow),
-            )
-          ],
-        ),
-      ),
+      initialRoute: "/",
+      routes : {
+        '/' : (context) => MyPage(),
+        '/main' : (context) => MyPage(),
+        "/dict" : (context) => DictionaryScreen(),
+      }
     );
   }
 }
