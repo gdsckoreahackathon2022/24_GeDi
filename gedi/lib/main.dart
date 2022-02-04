@@ -19,7 +19,11 @@ class GediApp extends StatefulWidget {
 
   static List<Widget> pageList = [
     const DictionaryScreen(),
-    const Text("asdfasdfasdf"),
+    Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.red,
+    ),
     const Text("qwerqwerqwer")
   ];
 
@@ -54,14 +58,31 @@ class _GediAppState extends State<GediApp> {
         //     )
         //   ],
         // ),
-        body: Row(
-          children: <Widget>[
-            LeftWidget(
-              callback: callback,
+        body: Stack(
+          children: [
+            Row(
+              children: <Widget>[
+                const SizedBox(
+                  height: double.infinity,
+                  width: 55,
+                ),
+                Expanded(
+                  child: GediApp.pageList[pageIndex],
+                )
+              ],
             ),
-            Expanded(
-              child: GediApp.pageList[pageIndex],
-            )
+            Row(
+              children: <Widget>[
+                LeftWidget(
+                  callback: callback,
+                ),
+                Expanded(
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

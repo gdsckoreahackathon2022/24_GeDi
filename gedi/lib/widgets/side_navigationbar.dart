@@ -182,13 +182,14 @@ class CheckPointPainter extends CustomPainter {
     //     Rect.fromCenter(center: Offset(offset.dx, offset.dy), width: 60, height: 60),
     //     paint);
     canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(offset.dx, offset.dy), width: 60, height: 80),
-        //Rect.fromCircle(center: Offset(offset.dx, offset.dy), radius: radius),
-        startAngle,
-        sweepAngle,
-        false,
-        paint);
+      Rect.fromCenter(
+          center: Offset(offset.dx, offset.dy), width: 60, height: 80),
+      //Rect.fromCircle(center: Offset(offset.dx, offset.dy), radius: radius),
+      startAngle,
+      sweepAngle,
+      false,
+      paint,
+    );
 
     paint.color = Colors.white;
 
