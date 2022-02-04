@@ -80,6 +80,7 @@ class ImageSourceTypeScreen extends StatelessWidget {
                     try {
                       var image = await imagePicker.pickImage(
                         source: ImageSource.camera,
+                        imageQuality: 100,
                         preferredCameraDevice: CameraDevice.rear,
                       );
                       TextRecognitionScreen.show(context,

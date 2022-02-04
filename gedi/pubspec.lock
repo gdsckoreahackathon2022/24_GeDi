@@ -135,6 +135,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  google_ml_kit_for_korean:
+    dependency: "direct main"
+    description:
+      name: google_ml_kit_for_korean
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.10"
   http:
     dependency: transitive
     description:
@@ -219,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  photo_view:
+    dependency: "direct main"
+    description:
+      name: photo_view
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
   plugin_platform_interface:
     dependency: transitive
     description:
