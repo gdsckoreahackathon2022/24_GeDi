@@ -1,9 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gedi/models/dictionary.dart';
+import 'package:gedi/screens/image_view_screen.dart';
+import 'package:gedi/utils/database.dart';
 import 'package:gedi/widgets/image_round_container.dart';
+import 'package:google_ml_kit_for_korean/google_ml_kit_for_korean.dart';
 
-class TextRecognitionScreen extends StatelessWidget {
+class TextRecognitionScreen extends StatefulWidget {
   const TextRecognitionScreen({Key? key, required this.image})
       : super(key: key);
   final File image;
@@ -20,6 +24,32 @@ class TextRecognitionScreen extends StatelessWidget {
   }
 
   @override
+  State<TextRecognitionScreen> createState() => _TextRecognitionScreenState();
+}
+
+class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
+  late InputImage visionImage;
+  TextDetectorV2 textDetector = GoogleMlKit.vision.textDetectorV2();
+  late RecognisedText visionText;
+  late Stream<List<Dictionary>> streamData;
+
+  @override
+  void initState() {
+    final database = FirestoreDatabase();
+    streamData = database.dictionaryStream();
+    super.initState();
+    visionImage = InputImage.fromFile(widget.image);
+  }
+
+  Future<String> recognized() async {
+    // visionText = await textRecognizer.processImage(visionImage);
+    visionText = await textDetector.processImage(visionImage);
+    String text = visionText.text;
+
+    return text;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -31,11 +61,19 @@ class TextRecognitionScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            ImageRoundContainer(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3.5,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-              image: FileImage(image),
+            Hero(
+              tag: 'image',
+              child: ImageRoundContainer(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3.5,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                image: FileImage(widget.image),
+                onPressed: () => ImageViewScreen.show(
+                  context,
+                  image: FileImage(widget.image),
+                ),
+              ),
             ),
             Expanded(
               child: Stack(
@@ -49,25 +87,84 @@ class TextRecognitionScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    children: const <Widget>[
-                      LetterInImageContainer(
-                        title: "사진 속에서 찾아낸 글자",
-                        content: "맘스스테이션",
-                      ),
-                      Expanded(
-                        child: CorrectWordsContainer(
-                          title: "잘못된 단어 수정",
-                        ),
-                      )
-                    ],
-                  )
+                  FutureBuilder(
+                    future: recognized(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData == false) {
+                        return const RecognizedWordsContainer(
+                            content: "No Data");
+                      } else if (snapshot.hasError) {
+                        return RecognizedWordsContainer(
+                            content: 'Error: ${snapshot.error}');
+                      } else {
+                        String content = snapshot.data.toString();
+                        if (content == "") {
+                          return const RecognizedWordsContainer(
+                              content: "발견한 단어가 없습니다.");
+                        } else {
+                          return RecognizedWordsContainer(
+                            content: content,
+                            streamData: streamData,
+                          );
+                        }
+                      }
+                    },
+                  ),
                 ],
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class RecognizedWordsContainer extends StatelessWidget {
+  const RecognizedWordsContainer({
+    Key? key,
+    required this.content,
+    this.streamData,
+  }) : super(key: key);
+
+  final String content;
+  final Stream<List<Dictionary>>? streamData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        LetterInImageContainer(
+          title: "사진 속에서 찾아낸 글자",
+          content: content,
+        ),
+        Expanded(
+          child: StreamBuilder<List<Dictionary>>(
+              stream: streamData,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CorrectWordsContainer(
+                    title: "잘못된 단어 수정",
+                    wrongWords: [],
+                    correctWords: [],
+                  );
+                }
+                List<String> wrongWords = [];
+                List<String> correctWords = [];
+                snapshot.data!.asMap().forEach((index, word) {
+                  if (content.contains(word.wrongWord)) {
+                    wrongWords.add(word.wrongWord);
+                    correctWords.add(word.title);
+                  }
+                });
+                return CorrectWordsContainer(
+                  title: "잘못된 단어 수정",
+                  wrongWords: wrongWords,
+                  correctWords: correctWords,
+                );
+              }),
+        )
+      ],
     );
   }
 }
@@ -130,9 +227,13 @@ class CorrectWordsContainer extends StatelessWidget {
   const CorrectWordsContainer({
     Key? key,
     required this.title,
+    required this.wrongWords,
+    required this.correctWords,
   }) : super(key: key);
 
   final String title;
+  final List<String> wrongWords;
+  final List<String> correctWords;
 
   @override
   Widget build(BuildContext context) {
@@ -163,37 +264,36 @@ class CorrectWordsContainer extends StatelessWidget {
           ),
           Expanded(
               child: Center(
-            child: ListView(
+            child: ListView.builder(
               shrinkWrap: true,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const <Widget>[
-                      Expanded(
-                        flex: 4,
-                        child: Center(
-                          child: Text("맘스스테이션"),
-                        ),
+              itemCount: wrongWords.length,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 4,
+                      child: Center(
+                        child: Text(wrongWords[index]),
                       ),
-                      Expanded(
-                        flex: 2,
-                        child: Image(
-                          height: 50,
-                          image: AssetImage('assets/icons/arrow.png'),
-                        ),
+                    ),
+                    const Expanded(
+                      flex: 2,
+                      child: Image(
+                        height: 50,
+                        image: AssetImage('assets/icons/arrow.png'),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Center(
-                          child: Text("어린이 승하차장"),
-                        ),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Center(
+                        child: Text(correctWords[index]),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ))
         ],
