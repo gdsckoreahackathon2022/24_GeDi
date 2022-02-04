@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:table_calendar/table_calendar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../main.dart';
 //import 'scrapePage.dart';
 //import 'testResult.dart';
 
@@ -23,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   // user info
   String level = 1.toString();
   String point = 65.toString();
-  String userName = "User name";
+  String userName = user_Name;
 
   @override
   Widget build(BuildContext context) {

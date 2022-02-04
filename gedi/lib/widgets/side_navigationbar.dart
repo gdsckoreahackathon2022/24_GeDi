@@ -5,6 +5,14 @@ import 'package:flutter/scheduler.dart';
 import 'package:gedi/models/global.dart';
 
 import 'package:gedi/screens/setting_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:google_sign_in/widgets.dart';
+import 'package:gedi/screens/login_screen.dart';
+
+import '../main.dart';
+
+GoogleSignInAccount? _currentUser;
+
 
 class LeftWidget extends StatefulWidget {
   const LeftWidget({Key? key, required this.callback}) : super(key: key);
@@ -17,6 +25,8 @@ class LeftWidget extends StatefulWidget {
 
 class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
   final List<String> _list = ["Dictionary", "My Page", "Videos"];
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   // HomePage home = HomePage();
   final List<GlobalKey> _keys = [
     GlobalKey(),
@@ -38,6 +48,13 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
     checkIndex = 1;
     super.initState();
 
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
+
     SchedulerBinding.instance!.endOfFrame.then((value) {
       calcuteCheckOffset();
       // animationOffset =
@@ -58,10 +75,26 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
 
   List<Widget> _buildList(BuildContext context) {
     List<Widget> widgetList = [];
+    GoogleSignInAccount? user = _currentUser;
+    print(user);
+
+    if(user != null){
+      user_Name = user.displayName!!!;
+      widgetList.add(
+        Padding(
+          padding: EdgeInsets.only(
+            top: 70,
+          ),
+          child: GoogleUserCircleAvatar(
+            identity: user,
+          ),
+        )
+      );
+    }
 
     widgetList.add(const Padding(
         padding: EdgeInsets.only(
-      top: 100,
+      top: 50,
     )));
     for (int i = 0; i < _list.length; i++) {
       widgetList.add(

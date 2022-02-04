@@ -1,18 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gedi/screens/dictionary_screen.dart';
+import 'package:gedi/screens/login_screen.dart';
 import 'package:gedi/screens/mainPage.dart';
 import 'package:gedi/widgets/side_navigationbar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'firebase_options.dart';
 import 'models/global.dart';
+
+var user_Name = '';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp(home: GediApp()));
+  runApp(MaterialApp(home: SignInDemo()));
 }
 
 class GediApp extends StatefulWidget {
