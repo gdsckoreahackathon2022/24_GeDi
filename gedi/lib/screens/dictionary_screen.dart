@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gedi/models/dictionary.dart';
 import 'package:gedi/screens/image_source_type_screen.dart';
+import 'package:gedi/utils/database.dart';
 import 'package:gedi/widgets/dictionary_container.dart';
 
 class DictionaryScreen extends StatefulWidget {
@@ -18,82 +20,32 @@ class DictionaryScreen extends StatefulWidget {
 }
 
 class _DictionaryScreenState extends State<DictionaryScreen> {
-  final List<Map<String, dynamic>> _allWords = [
-    {
-      "id": 1,
-      "title": "자녀",
-      "wrongWord": "자",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": true,
-    },
-    {
-      "id": 2,
-      "title": "학부모",
-      "wrongWord": "학부형",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": false,
-    },
-    {
-      "id": 3,
-      "title": "비혼",
-      "wrongWord": "미혼",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": false,
-    },
-    {
-      "id": 4,
-      "title": "윗수",
-      "wrongWord": "분자",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": false,
-    },
-    {
-      "id": 5,
-      "title": "아랫수",
-      "wrongWord": "분모",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": true
-    },
-    {
-      "id": 6,
-      "title": "스포츠정신",
-      "wrongWord": "스포츠맨십",
-      "mean": "설명 설명 설명",
-      "socialMean": "설명 설명 설명",
-      "reason": "설명 설명 설명",
-      "isScraped": true
-    },
-  ];
-
-  List<Map<String, dynamic>> _foundWords = [];
+  List<Dictionary> _allWords = [];
+  List<Dictionary> _foundWords = [];
+  late Stream<List<Dictionary>> streamData;
+  bool isSearched = false;
 
   @override
   initState() {
-    _foundWords = _allWords;
+    final database = FirestoreDatabase();
+    streamData = database.dictionaryStream();
     super.initState();
   }
 
   void _runFilter(String enteredKeyword) {
-    List<Map<String, dynamic>> results = [];
+    List<Dictionary> results = [];
     if (enteredKeyword.isEmpty) {
       results = _allWords;
     } else {
       results = _allWords
-          .where((word) => word["title"]
+          .where((word) => word
+              .toMap()["title"]
               .toLowerCase()
               .contains(enteredKeyword.toLowerCase()))
           .toList();
+      print(results);
     }
+    isSearched = true;
 
     setState(() {
       _foundWords = results;
@@ -138,24 +90,39 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
           ),
         ),
       ),
-      body: _foundWords.isNotEmpty
-          ? ListView.builder(
-              itemCount: _foundWords.length,
-              itemBuilder: (context, index) => DictionaryContainer(
-                title: _foundWords[index]["title"],
-                wrongWord: _foundWords[index]["wrongWord"],
-                mean: _foundWords[index]["mean"],
-                socialMean: _foundWords[index]["socialMean"],
-                reason: _foundWords[index]["reason"],
-                isScraped: _foundWords[index]["isScraped"],
-              ),
-            )
-          : const Center(
-              child: Text(
-                'No results found',
-                style: TextStyle(fontSize: 24),
-              ),
-            ),
+      body: StreamBuilder<List<Dictionary>>(
+          stream: streamData,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+            _allWords = snapshot.data!;
+            if (!isSearched) {
+              _foundWords = _allWords;
+            }
+            return _foundWords.isNotEmpty
+                ? ListView.builder(
+                    itemCount: _foundWords.length,
+                    itemBuilder: (context, index) => DictionaryContainer(
+                      title: _foundWords[index].toMap()["title"],
+                      wrongWord: _foundWords[index].toMap()["wrongWord"],
+                      mean: _foundWords[index].toMap()["mean"],
+                      socialMean: _foundWords[index].toMap()["socialMean"],
+                      reason: _foundWords[index].toMap()["reason"],
+                      isScraped: _foundWords[index].toMap()["isScraped"],
+                    ),
+                  )
+                : const Center(
+                    child: Text(
+                      'No results found',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => ImageSourceTypeScreen.show(context),
         backgroundColor: const Color(0xff6667AB),
