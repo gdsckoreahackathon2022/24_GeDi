@@ -4,6 +4,8 @@ import 'dart:math' as math;
 import 'package:flutter/scheduler.dart';
 import 'package:gedi/models/global.dart';
 
+import 'package:gedi/screens/setting_screen.dart';
+
 class LeftWidget extends StatefulWidget {
   const LeftWidget({Key? key, required this.callback}) : super(key: key);
 
@@ -54,7 +56,7 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
         widgetOffset.dy + widgetSise.height);
   }
 
-  List<Widget> _buildList() {
+  List<Widget> _buildList(BuildContext context) {
     List<Widget> widgetList = [];
 
     widgetList.add(const Padding(
@@ -87,15 +89,20 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
       ),
     );
     widgetList.add(
-      const Padding(
+      Padding(
         padding: EdgeInsets.only(
           top: 50,
           bottom: 50,
         ),
-        child: Icon(
-          Icons.settings,
-          color: Color(0xffd8d8d8),
-          size: 30,
+        child: IconButton(
+          icon: Icon(
+            Icons.settings,
+            color: Color(0xffd8d8d8),
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Setting()));
+          },
         ),
       ),
     );
@@ -145,7 +152,7 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
-            children: _buildList(),
+            children: _buildList(context),
           ),
         ),
         Positioned(

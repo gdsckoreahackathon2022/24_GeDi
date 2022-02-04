@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gedi/screens/dictionary_screen.dart';
+import 'package:gedi/screens/mainPage.dart';
 import 'package:gedi/widgets/side_navigationbar.dart';
 
 import 'firebase_options.dart';
@@ -19,11 +20,7 @@ class GediApp extends StatefulWidget {
 
   static List<Widget> pageList = [
     const DictionaryScreen(),
-    Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.red,
-    ),
+    MainPage(),
     const Text("qwerqwerqwer")
   ];
 
@@ -43,6 +40,7 @@ class _GediAppState extends State<GediApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'GEDI',
       theme: ThemeData(
         primaryColor: const Color(0xffa3a4cd),
@@ -78,7 +76,7 @@ class _GediAppState extends State<GediApp> {
                 ),
                 Expanded(
                   child: Container(
-                    color: Colors.transparent,
+                    child: GediApp.pageList[pageIndex],
                   ),
                 )
               ],
