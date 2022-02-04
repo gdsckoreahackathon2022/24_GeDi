@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gedi/screens/image_view_screen.dart';
 import 'package:gedi/widgets/image_round_container.dart';
 
 class TextRecognitionScreen extends StatelessWidget {
@@ -31,11 +32,19 @@ class TextRecognitionScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            ImageRoundContainer(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 3.5,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-              image: FileImage(image),
+            Hero(
+              tag: 'image',
+              child: ImageRoundContainer(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 3.5,
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                image: FileImage(image),
+                onPressed: () => ImageViewScreen.show(
+                  context,
+                  image: FileImage(image),
+                ),
+              ),
             ),
             Expanded(
               child: Stack(
