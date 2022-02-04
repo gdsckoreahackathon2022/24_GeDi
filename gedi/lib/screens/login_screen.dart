@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gedi/main.dart';
 import 'dart:async';
 import 'dart:convert' show json;
 import "package:http/http.dart" as http;
 import 'package:google_sign_in/google_sign_in.dart';
 
-
+GoogleSignInAccount? _currentUser;
 
 class SignInDemo extends StatefulWidget {
   @override
@@ -23,7 +24,6 @@ class SignInDemo extends StatefulWidget {
 class SignInDemoState extends State<SignInDemo> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  GoogleSignInAccount? _currentUser;
   String _contactText = '';
 
   @override
@@ -57,28 +57,29 @@ class SignInDemoState extends State<SignInDemo> {
   Widget _buildBody() {
     GoogleSignInAccount? user = _currentUser;
     if (user != null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          ListTile(
-            leading: GoogleUserCircleAvatar(
-              identity: user,
-            ),
-            title: Text(user.displayName ?? ''),
-            subtitle: Text(user.email),
-          ),
-          const Text("Signed in successfully."),
-          Text(_contactText),
-          ElevatedButton(
-            child: const Text('SIGN OUT'),
-            onPressed: _handleSignOut,
-          ),
-          ElevatedButton(
-            child: const Text('REFRESH'),
-            onPressed: () => signInWithGoogle(),
-          ),
-        ],
-      );
+      return GediApp();
+//       return Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//         children: <Widget>[
+//           ListTile(
+//             leading: GoogleUserCircleAvatar(
+//               identity: user,
+//             ),
+//             title: Text(user.displayName ?? ''),
+//             subtitle: Text(user.email),
+//           ),
+//           const Text("Signed in successfully."),
+//           Text(_contactText),
+//           ElevatedButton(
+//             child: const Text('SIGN OUT'),
+//             onPressed: _handleSignOut,
+//           ),
+//           ElevatedButton(
+//             child: const Text('REFRESH'),
+//             onPressed: () => signInWithGoogle(),
+//           ),
+//         ],
+//       );
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -135,9 +136,6 @@ class SignInDemoState extends State<SignInDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("SNS Login"),
-      ),
       body: ConstrainedBox(
         constraints: const BoxConstraints.expand(),
         child: _buildBody(),

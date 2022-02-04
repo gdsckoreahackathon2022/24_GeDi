@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -6,6 +7,7 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   final _daytime = ['오전', '오후'];
   var _selectedDaytime = '오전';
@@ -341,7 +343,7 @@ class _SettingState extends State<Setting> {
               ),
               child: TextButton(
                 onPressed: () {
-
+                  _googleSignIn.disconnect();
                 },
                 child: Text(
                   '탈퇴하기',
