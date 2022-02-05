@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gedi/screens/QuizPage.dart';
 //import 'package:gedi/calendarEvent.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:table_calendar/table_calendar.dart';
@@ -212,7 +213,7 @@ class _QuestionState extends State<Question> {
       ),
       child: TextButton(
         onPressed: () {
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => TestResult()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Quiz()));
         },
         child: Text(
           todayProblem,
