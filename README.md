@@ -90,18 +90,6 @@ flutter run
 
 # Contributors
 
-- [Chaewon Lee](https://github.com/lcw729)
-- [Donghyun Ahn](https://github.com/devdonghyun)
-- [Wonhyuk Choi](https://github.com/devluce)
-- [Yoongyo Lee](https://github.com/lykee2000)
-
-# License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-# Contributors
-
 - [Yeeun Kim](https://github.com/Yeeunbb)
 - [Dain Kang](https://github.com/melli0505)
 - [Hyeongcheol Shin](https://github.com/ShinHyeongcheol)
