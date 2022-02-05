@@ -79,7 +79,7 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
     print(user);
 
     if(user != null){
-      user_Name = user.displayName!!!;
+      user_Name = user.displayName!;
       widgetList.add(
         Padding(
           padding: EdgeInsets.only(

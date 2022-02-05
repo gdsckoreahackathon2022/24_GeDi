@@ -45,6 +45,7 @@ dependencies:
   table_calendar: ^3.0.3
   intl: ^0.17.0
   sliding_up_panel: ^2.0.0+1
+  circular_countdown_timer: ^0.2.0
 
 dev_dependencies:
   flutter_test:

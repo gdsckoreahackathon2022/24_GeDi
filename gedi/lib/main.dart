@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gedi/screens/QuizPage.dart';
 import 'package:gedi/screens/dictionary_screen.dart';
 import 'package:gedi/screens/login_screen.dart';
 import 'package:gedi/screens/mainPage.dart';
@@ -17,7 +18,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-    home: SignInDemo(),
+    home: QuizStart(),
     debugShowCheckedModeBanner: false,
   ));
 }
@@ -28,7 +29,7 @@ class GediApp extends StatefulWidget {
   static List<Widget> pageList = [
     const DictionaryScreen(),
     MainPage(),
-    const Text("qwerqwerqwer")
+    const Text("videos")
   ];
 
   @override
