@@ -18,8 +18,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
-    home: QuizStart(),
-    debugShowCheckedModeBanner: false,
+    home: SignInDemo(),
   ));
 }
 
@@ -29,7 +28,7 @@ class GediApp extends StatefulWidget {
   static List<Widget> pageList = [
     const DictionaryScreen(),
     MainPage(),
-    const Text("videos")
+    const Text("videos (to be continued. . .")
   ];
 
   @override
