@@ -28,7 +28,7 @@ class GediApp extends StatefulWidget {
   static List<Widget> pageList = [
     const DictionaryScreen(),
     MainPage(),
-    const Text("videos (to be continued. . .")
+    const Text("videos (to be continued. . .)")
   ];
 
   @override
@@ -53,6 +53,8 @@ class _GediAppState extends State<GediApp> {
         primaryColor: const Color(0xffa3a4cd),
       ),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
+
         // appBar: AppBar(
         //   title: const Text('GEDI'),
         //   backgroundColor: const Color(0xffa3a4cd),

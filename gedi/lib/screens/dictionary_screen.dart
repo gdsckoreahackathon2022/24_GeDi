@@ -79,6 +79,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                       contentPadding: EdgeInsets.only(left: 24.0),
                       border: InputBorder.none,
                     ),
+
                   ),
                 ),
               ),
