@@ -67,4 +67,18 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:multidex:1.0.3"
+    // To recognize Latin script
+    implementation 'com.google.mlkit:text-recognition:16.0.0-beta3'
+
+    // To recognize Chinese script
+    implementation 'com.google.mlkit:text-recognition-chinese:16.0.0-beta3'
+
+    // To recognize Devanagari script
+    implementation 'com.google.mlkit:text-recognition-devanagari:16.0.0-beta3'
+
+    // To recognize Japanese script
+    implementation 'com.google.mlkit:text-recognition-japanese:16.0.0-beta3'
+
+    // To recognize Korean script
+    implementation 'com.google.mlkit:text-recognition-korean:16.0.0-beta3'
 }

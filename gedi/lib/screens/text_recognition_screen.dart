@@ -45,6 +45,7 @@ class _TextRecognitionScreenState extends State<TextRecognitionScreen> {
     // visionText = await textRecognizer.processImage(visionImage);
     visionText = await textDetector.processImage(visionImage);
     String text = visionText.text;
+    print("vision Text : ${text}");
 
     return text;
   }

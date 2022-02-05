@@ -76,10 +76,10 @@ class _LeftWidgetState extends State<LeftWidget> with TickerProviderStateMixin {
   List<Widget> _buildList(BuildContext context) {
     List<Widget> widgetList = [];
     GoogleSignInAccount? user = _currentUser;
-    print(user);
+    //print(user);
 
     if(user != null){
-      user_Name = user.displayName!!!;
+      user_Name = user.displayName!;
       widgetList.add(
         Padding(
           padding: EdgeInsets.only(
