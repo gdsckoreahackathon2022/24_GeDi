@@ -16,7 +16,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(home: SignInDemo()));
+  runApp(MaterialApp(
+    home: SignInDemo(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class GediApp extends StatefulWidget {
