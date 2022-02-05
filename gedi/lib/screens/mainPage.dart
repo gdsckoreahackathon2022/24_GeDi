@@ -10,7 +10,6 @@ import '../main.dart';
 //import 'scrapePage.dart';
 //import 'testResult.dart';
 
-
 List<Widget> widgetList = [Today(), Question(), ScrapeBtn(), Weekly()];
 
 class MainPage extends StatefulWidget {
@@ -31,83 +30,77 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child:SlidingUpPanel(
-            body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                      Container(
-                        height: 30,
-                        child: Text(
-                          userName,
-                          style: TextStyle(
-                              fontSize: 30,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        margin: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 120,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(color: const Color(0x00ffffff), width: 1),
-                              gradient: const LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                colors: [
-                                  Color(0xff9694DE),
-                                  Color(0xff6667AB)
-                                ]
-                              )
-                            ),
-                            child: Text(
-                              'Level $level',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            margin: EdgeInsets.only(left: 40, right: 10),
-                            alignment: Alignment.center,
-                          ),
-                          Text(
-                            '$point%',
-                            style: TextStyle(
-                              color: Color(0xff898989),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const Text(
-                            ' to Next Level',
-                            style: TextStyle(
-                              color: Color(0xff898989),
-                              fontSize: 15,
-                            ),
-                          )
-                        ]
-                      ), // Level ~ point
-                      Calendar(),
-                      Today(),
-                      SizedBox(height: 2),
-                      Question(),
-                      ScrapeBtn(),
-                ],
+      child: SlidingUpPanel(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 30,
+              child: Text(
+                userName,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              margin: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
             ),
-          panel: Center(child: Weekly()),
-          minHeight: MediaQuery.of(context).size.height - 550,
-          borderRadius: BorderRadius.circular(10),
-          margin: EdgeInsets.only(left: 20, right: 20),
+            Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 120,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(
+                            color: const Color(0x00ffffff), width: 1),
+                        gradient: const LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [Color(0xff9694DE), Color(0xff6667AB)])),
+                    child: Text(
+                      'Level $level',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    margin: EdgeInsets.only(left: 40, right: 10),
+                    alignment: Alignment.center,
+                  ),
+                  Text(
+                    '$point%',
+                    style: TextStyle(
+                      color: Color(0xff898989),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Text(
+                    ' to Next Level',
+                    style: TextStyle(
+                      color: Color(0xff898989),
+                      fontSize: 15,
+                    ),
+                  )
+                ]), // Level ~ point
+            Calendar(),
+            Today(),
+            SizedBox(height: 2),
+            Question(),
+            ScrapeBtn(),
+          ],
+        ),
+        panel: Center(child: Weekly()),
+        minHeight: MediaQuery.of(context).size.height - 600,
+        borderRadius: BorderRadius.circular(10),
+        margin: EdgeInsets.only(left: 20, right: 20),
 //        padding: EdgeInsets.all(10),
-          color: Colors.orange,
-          ),
-
+        color: Colors.orange,
+      ),
     );
   }
 }
@@ -121,7 +114,7 @@ class _CalendarState extends State<Calendar> {
 //  late Map<DateTime, List<CalendarEvent>> selectedEvents;
 
   @override
-   void initState() {
+  void initState() {
 //    selectedEvents = {};
     super.initState();
   }
@@ -146,12 +139,9 @@ class _CalendarState extends State<Calendar> {
             formatButtonVisible: false,
           ),
 //          eventLoader: _getEventFromDay,
-        )
-    );// Calendar;
+        )); // Calendar;
   }
 }
-
-
 
 class Today extends StatelessWidget {
   const Today({Key? key}) : super(key: key);
@@ -174,7 +164,7 @@ class Today extends StatelessWidget {
               ),
             ),
           ),
-          Image.asset("assets/icons/thought.png", width:25)
+          Image.asset("assets/icons/thought.png", width: 25)
         ],
       ),
     ); // 오늘의 문제 + icon;
@@ -183,7 +173,6 @@ class Today extends StatelessWidget {
 
 class Question extends StatefulWidget {
   const Question({Key? key}) : super(key: key);
-
 
   @override
   State<Question> createState() => _QuestionState();
@@ -242,64 +231,62 @@ class _ScrapeBtnState extends State<ScrapeBtn> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        height: 70,
-        margin: EdgeInsets.only(left: 40, right: 40, top:30, bottom: 10),
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xffCFCFCF),
-                spreadRadius: 4,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              )
-            ]
-        ),
-        child: TextButton(
-            onPressed: (){
-              // go to scrape page
+      width: double.infinity,
+      height: 70,
+      margin: EdgeInsets.only(left: 40, right: 40, top: 30, bottom: 10),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xffCFCFCF),
+              spreadRadius: 4,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            )
+          ]),
+      child: TextButton(
+          onPressed: () {
+            // go to scrape page
 //              Navigator.push(context, MaterialPageRoute(builder: (context) => ScrapePage()),
 //              );
-            },
-            child: Row(
-              children: [
-                Image.asset("assets/icons/scrape.png", width:30),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    "Scrape",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                Text(
-                  scrapeCount,
+          },
+          child: Row(
+            children: [
+              Image.asset("assets/icons/scrape.png", width: 30),
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  "Scrape",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                SizedBox(width: 10),
-              ],
-            )
-        ),
-      ); // scrape button;
+              ),
+              Text(
+                scrapeCount,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 10),
+            ],
+          )),
+    ); // scrape button;
   }
 }
-
 
 class Weekly extends StatelessWidget {
   // weekly knowledge data
   String weeklyWrongWord = "맘스스테이션";
   String weeklyRightWord = "어린이 승하차장";
-  String weeklyWordCommentary = """맘스스테이션, 마미캅, 맘카페...'  유독 육아에 관련된 단어에 엄마가 자꾸 등장하는 것 같습니다.
+  String weeklyWordCommentary =
+      """맘스스테이션, 마미캅, 맘카페...'  유독 육아에 관련된 단어에 엄마가 자꾸 등장하는 것 같습니다.
   시민들은 육아관련 신조어에 엄마를 지칭하는 맘을 넣는 것은 엄마는 물론 아이의 아빠까지 불편하게 만들 수 있는 언어적 습관이라며 이를 바꿀 것을 제안했습니다.
   아이들의 등하원 버스 정류소를 지칭하는 ‘맘스스테이션’은 ‘어린이 승하차장’ 으로 고쳐서 그 목적을 뚜렷하게 전달하고자 합니다.""";
 
@@ -309,71 +296,73 @@ class Weekly extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
 //          width: 50,
-          margin: EdgeInsets.only(right: 55),
-          padding: EdgeInsets.all(15),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+      margin: EdgeInsets.only(right: 55),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Weekly Knowledge',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.start,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Weekly Knowledge',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.start,
+          Divider(color: Color(0xffA3A4CD), thickness: 1),
+          Container(
+            margin: EdgeInsets.only(top: 10, right: 10),
+            width: double.infinity,
+            child: Text(
+              weeklyWrongWord,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
               ),
-              Divider(color: Color(0xffA3A4CD), thickness: 1),
-              Container(
-                margin: EdgeInsets.only(top: 10, right: 10),
-                width: double.infinity,
-                child: Text(
-                  weeklyWrongWord,
+              textAlign: TextAlign.right,
+            ),
+          ),
+          SizedBox(
+            height: 3,
+            width: 1,
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Image.asset("assets/icons/arrow2.png", width: 25),
+                SizedBox(width: 10),
+                Text(
+                  weeklyRightWord,
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.right,
                 ),
-              ),
-              SizedBox(height: 3, width: 1,),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image.asset("assets/icons/arrow2.png", width: 25),
-                    SizedBox(width: 10),
-                    Text(
-                      weeklyRightWord,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 3),
-              Container(
-//                margin: EdgeInsets.only(right: 40),
-                padding: EdgeInsets.all(10),
-                  child: Text(
-                    weeklyWordCommentary,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  )
-              )
-            ],
+              ],
+            ),
           ),
+          SizedBox(height: 3),
+          Container(
+//                margin: EdgeInsets.only(right: 40),
+              padding: EdgeInsets.all(10),
+              child: Text(
+                weeklyWordCommentary,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
+              ))
+        ],
+      ),
       alignment: Alignment.centerLeft,
-    );// Weekly Knowledge;
+    ); // Weekly Knowledge;
   }
 }

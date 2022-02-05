@@ -17,7 +17,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(home: QuizStart()));
+  runApp(MaterialApp(
+    home: QuizStart(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
 
 class GediApp extends StatefulWidget {
