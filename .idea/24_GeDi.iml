@@ -3,9 +3,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/gedi/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/gedi/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/gedi/build" />
-      <excludeFolder url="file://$MODULE_DIR$/gedi/.dart_tool" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
