@@ -59,6 +59,8 @@ GeDi(Gender-Neutral Dictionary)는 일상 속에서 관습처럼 굳어진 채 �
 git clone https://github.com/gdsckoreahackathon2022/24_GeDi.git
 ```
 
+- apk file link : https://drive.google.com/drive/u/2/folders/1nKTB10j9WnJ9_0fb6tU-MgaF24b4JgUL
+
 ## Build and Run
 
 1. [Providing SHA1/SHA256 key](https://developers.google.com/android/guides/client-auth)
